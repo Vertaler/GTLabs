@@ -14,7 +14,7 @@ namespace GTLabs
         {
             var resultBuilder = new StringBuilder();
             resultBuilder.Append("A: ( ");
-            foreach(double x in FirstPlayerStrategy)//
+            foreach(double x in FirstPlayerStrategy)
             {
                 resultBuilder.Append(x.ToString("F3") +" ");
             }
