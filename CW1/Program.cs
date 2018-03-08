@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CW1
 {
@@ -10,7 +7,7 @@ namespace CW1
     {
         static double Func(double x, double y)
         {
-            return -3 * x * x + 1.5 * y * y + 3.6 * x * y - x * 18.0 / 50 - y * 72.0 / 25;
+            return -3 * x * x + 1.5 * y * y + 3.6 * x * y - x * (18.0 / 50) - y * (72.0 / 25);
         }
 
         static double[][] DiscreteFunction(int N)
@@ -27,23 +24,26 @@ namespace CW1
             return result;
         }
 
-        static Tuple<int,int> MaxMin(double[][] matrix)
+        static (int,int, double) MaxMin(double[][] matrix)
         {
             var minIndexes = matrix.Select((vector) => Array.IndexOf(vector, vector.Min())).ToArray();
             var minimals = matrix.Select((vector) => vector.Min()).ToArray();
             var maxmin = minimals.Max();
             var i = Array.IndexOf(minimals, maxmin);
             var j = minIndexes[i];
-            return new Tuple<int, int>(i, j);
+            return (i,j, maxmin);
         }
 
         static void Main(string[] args)
         {
-\            for(int i =2; i < 30; i++)
+            var x = 3.0 / 10;
+            var y = 3.0 / 5;
+            Console.WriteLine($"Analytical solution: x*={x.ToString("F3")}, y*={y.ToString("F3")}, H(x*,y*)={Func(x,y)}");
+            for(int N =1; N <= 10; N++)
             {
-                var matrix = DiscreteFunction(i);
-                var result = MaxMin(matrix);
-                Console.WriteLine($"N={i,4} x={((double)result.Item1 / i).ToString("F5")} y={((double)result.Item2 / i).ToString("F5")} H(x,y)={matrix[result.Item1][result.Item2]}");
+                var matrix = DiscreteFunction(N);
+                (int i, int j, double H) = MaxMin(matrix);
+                Console.WriteLine($"N={N,-4} x={(double)i/N:F3} y={(double)j / N:F3} H(x,y)={H:F3}");
             }
             Console.ReadKey();
         }
