@@ -17,7 +17,7 @@ namespace GTLabs
 
             //var B = A.Inverse();
             var analiticalSolution = AnalyticalMethod.Solve(A);
-            var brownRobinson = new BrownRobinson(0.01);
+            var brownRobinson = new BrownRobinson(0.1);
             var brownRobinsonSolution = brownRobinson.Solve(A);
             Console.Write("\n\n");
             Console.WriteLine($"Analitical solution: {analiticalSolution}");

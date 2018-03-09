@@ -1,13 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Excel = Microsoft.Office.Interop.Excel;
 
 namespace GTLabs
 {
     class BrownRobinson
     {
+        private Excel.Application _excelApp;
+        private Excel._Worksheet _workSheet;
+        private Excel._Workbook _workBook;
         private double _errorBound;
         private double _currentError;
         private double _lowerPrice;
@@ -40,6 +41,15 @@ namespace GTLabs
 
         private void _Initialize(Matrix gameMatrix)
         {
+            _excelApp = new Excel.Application();
+            _excelApp.Visible = false;
+            _workBook = (Excel.Workbook)_excelApp.ActiveWorkbook;
+            if (_workBook == null)
+            {
+                _workBook = _excelApp.Workbooks.Add();
+            }
+            _workSheet = (Excel.Worksheet)_excelApp.ActiveSheet;
+
             _gameMatrix = gameMatrix;
             _minimalUpperPrice = double.MaxValue;
             _maximalLowerPrice = double.MinValue;
@@ -79,6 +89,27 @@ namespace GTLabs
                 _maximalLowerPrice = _lowerPrice;
             }
             _averagePrice = (_upperPrice + _lowerPrice) / 2;
+        }
+
+        private void _ExcelWrite()
+        {
+            _workSheet.Cells[_iterationsCount, 1] = _iterationsCount;
+            _workSheet.Cells[_iterationsCount, 2] ="x" + (_firstPlayerChoice + 1);
+            _workSheet.Cells[_iterationsCount, 3] ="y" + (_secondPlayerChoice + 1);
+            for(int i=0; i<_firstPlayerGain.Length; i++)
+            {
+                _workSheet.Cells[_iterationsCount, 4 + i] = _firstPlayerGain[i];
+            }
+            for (int i = 0; i < _secondPlayerLoss.Length; i++)
+            {
+                _workSheet.Cells[_iterationsCount, 4 + i + _firstPlayerGain.Length] = _secondPlayerLoss[i];
+            }
+            var currentColumn = 4 + _firstPlayerGain.Length + _secondPlayerLoss.Length;
+            _workSheet.Cells[_iterationsCount, currentColumn] = _upperPrice;
+            _workSheet.Cells[_iterationsCount, currentColumn + 1] = _lowerPrice;
+            _workSheet.Cells[_iterationsCount, currentColumn + 2] = _averagePrice;
+            _workSheet.Cells[_iterationsCount, currentColumn + 3] = _currentError;
+
         }
 
         private void _ChooseStrategies()
@@ -128,9 +159,12 @@ namespace GTLabs
                 _UpdatePrices();
                 _currentError = _minimalUpperPrice - _maximalLowerPrice;
                 _PrintCurrentState();
+                _ExcelWrite();
                 _ChooseStrategies();
                 _iterationsCount++;
             } while (Math.Abs(_currentError) >= ErrorBound);
+            _workBook.SaveAs("result.xlsx");
+            _workBook.Close();
             solution.FirstPlayerStrategy = _firstPlayerStrategies.Select((x) => x / (_iterationsCount-1)).ToArray();
             solution.SecondPlayerStrategy = _secondPlayerStrategies.Select((x) => x / (_iterationsCount-1)).ToArray();
             return solution;
