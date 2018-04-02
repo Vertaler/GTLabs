@@ -12,6 +12,8 @@ namespace GTLabs.Lab2
         public Matrix<int> FirstMatrix { get; set; }
         public Matrix<int> SecondMatrix { get; set; }
 
+        abstract public IEnumerable<(int, int)> Solve();
+
         public BimatrixGameSolver(Matrix<int> firstMatrix, Matrix<int> secondMatrix)
         {
             FirstMatrix = firstMatrix;

@@ -15,7 +15,9 @@ namespace GTLabs.Lab2
             Matrix<int> second = new Matrix<int>(new[,] { {1, 0 }, { 10, 5 } });
 
             var nashSolver = new NashSolver(first, second);
+            var paretoSolver = new ParetoSolver(first, second);
             var nashPoints = nashSolver.Solve().ToArray();
+            var paretoPoints = paretoSolver.Solve().ToArray();
             Console.WriteLine("End");
 
         }

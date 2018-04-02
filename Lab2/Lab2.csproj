@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="BimatrixGameSolver.cs" />
     <Compile Include="NashSolver.cs" />
+    <Compile Include="ParetoSolver.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

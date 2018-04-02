@@ -9,7 +9,7 @@ namespace GTLabs.Lab2
 {
     class NashSolver:BimatrixGameSolver
     {
-        public IEnumerable<(int, int)> Solve()
+        public override IEnumerable<(int, int)> Solve()
         {            
             return FirstMatrix.ArgmaxColumns.Intersect(SecondMatrix.ArgmaxRows);
         }
