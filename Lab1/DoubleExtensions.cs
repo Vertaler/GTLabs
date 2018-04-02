@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GTLabs
 {
@@ -12,6 +8,5 @@ namespace GTLabs
         {
             return Math.Abs(left - right) < 0.000001;
         }
-
     }
 }

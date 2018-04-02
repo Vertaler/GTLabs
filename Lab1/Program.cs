@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GTLabs
 {
@@ -15,7 +11,6 @@ namespace GTLabs
             A[1, 0] = 14; A[1, 1] = 6; A[1, 2] = 16;
             A[2, 0] = 14; A[2, 1] = 14; A[2, 2] = 13;
 
-            //var B = A.Inverse();
             var analiticalSolution = AnalyticalMethod.Solve(A);
             var brownRobinson = new BrownRobinson(0.1);
             var brownRobinsonSolution = brownRobinson.Solve(A);
