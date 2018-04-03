@@ -45,6 +45,17 @@ namespace GTLabs.MatrixLib
             }
         }
 
+        public override string ToString()
+        {
+            var resultBuilder = new StringBuilder();
+            foreach(T elem in this)
+            {
+                resultBuilder.Append(elem.ToString());
+                resultBuilder.Append(" ");
+            }
+            return resultBuilder.ToString();
+        }
+
         IEnumerator IEnumerable.GetEnumerator()
         {
             return this.GetEnumerator();

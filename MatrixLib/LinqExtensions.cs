@@ -8,16 +8,18 @@ namespace GTLabs.MatrixLib
 {
     static class LinqExtensions
     {
-        public static int ArgMax<T>(this IEnumerable<T> collection)
+        public static IEnumerable<int> ArgMax<T>(this IEnumerable<T> collection)
         {
+            var arrayCollection = collection.ToArray();
             var max = collection.Max();
-            var argmax = Array.IndexOf(collection.ToArray(), max);
+            var argmax = Enumerable.Range(0,arrayCollection.Length).Where((i) => arrayCollection[i].Equals(max));
             return argmax; 
         }
-        public static int ArgMin<T>(this IEnumerable<T> collection)
+        public static IEnumerable<int> ArgMin<T>(this IEnumerable<T> collection)
         {
+            var arrayCollection = collection.ToArray();
             var min = collection.Min();
-            var argmin = Array.IndexOf(collection.ToArray(), min);
+            var argmin = Enumerable.Range(0, arrayCollection.Length).Where((i) => arrayCollection[i].Equals(min));
             return argmin;
         }
     }
