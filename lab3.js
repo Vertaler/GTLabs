@@ -1,4 +1,5 @@
 const zip= rows=>rows[0].map((_,c)=>rows.map(row=>row[c]))
+const COLORS = ["red","green","blue", "orange", "pink", "brown"];
 function randint(min, max) {
     var rand = min + Math.random() * (max + 1 - min);
     rand = Math.floor(rand);
@@ -62,11 +63,27 @@ class GameTree{
 		}
 		for(let node of this.get_nodes()){
 			for(let child of node.children){
-				graph += `${node.name}->${child.name}`;
-				if(node.optimal_children.includes(child)){
-					graph += '[color="red"]';
+				//graph += `${node.name}->${child.name}`;
+				if(!child.is_optimal()){
+					graph += `${node.name}->${child.name};`;
+					//graph += '[color="red"]';
 				}
-				graph += ';';
+				//graph += ';';
+			}
+		}
+		let i =-1;
+		for(let leaf of this.get_leafs()){
+			let node = leaf;
+			if(leaf.is_optimal()){
+				i++;
+			}
+			while(node && leaf.is_optimal()){
+					if(node.parent){
+
+							console.log(`${node.parent.name}->${node.name}[color="${COLORS[i]}"]`);
+							graph += `${node.parent.name}->${node.name}[color="${COLORS[i]}"]`;
+					}
+					node = node.parent;
 			}
 		}
 		graph += "}";
@@ -109,7 +126,7 @@ class GameNode{
 
 	get_max_gain(){
 		if(!this.get_children_gaines()){
-			debugger;
+			//debugger;
 		}
 		return Math.max(...this.get_children_gaines());
 	}
@@ -126,6 +143,17 @@ class GameNode{
 				}
 			}
 		}
+	}
+
+	is_optimal(){
+		let node = this;
+		while(node){
+			if(node.parent && !node.parent.optimal_children.includes(node) ){
+				return false;
+			}
+			node = node.parent;
+		}
+		return true;
 	}
 }
 
