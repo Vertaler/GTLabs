@@ -63,12 +63,9 @@ class GameTree{
 		}
 		for(let node of this.get_nodes()){
 			for(let child of node.children){
-				//graph += `${node.name}->${child.name}`;
 				if(!child.is_optimal()){
 					graph += `${node.name}->${child.name};`;
-					//graph += '[color="red"]';
 				}
-				//graph += ';';
 			}
 		}
 		let i =-1;
@@ -125,9 +122,6 @@ class GameNode{
 	}
 
 	get_max_gain(){
-		if(!this.get_children_gaines()){
-			//debugger;
-		}
 		return Math.max(...this.get_children_gaines());
 	}
 

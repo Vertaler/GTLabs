@@ -3,25 +3,25 @@
 from math import factorial as fac
 from  itertools import product
 
-TOLERANCE = 0.0001
+ACCURACY = 0.0001
 
 char_func = {
     0b0000:0,
-    0b0001:3,
-    0b0010:1,
-    0b0100:2,
+    0b0001:2,
+    0b0010:3,
+    0b0100:4,
     0b1000:4,
-    0b0011:4,
-    0b0101:5,
-    0b1001:8,
-    0b0110:3,
-    0b1010:5,
-    0b1100:6,
-    0b0111:7,
-    0b1011:10,
-    0b1101:11,
-    0b1110:8,
-    0b1111:13
+    0b0011:6,
+    0b0101:6,
+    0b1001:7,
+    0b0110:7,
+    0b1010:8,
+    0b1100:8,
+    0b0111:11,
+    0b1011:11,
+    0b1101:12,
+    0b1110:12,
+    0b1111:14
 }
 
 def super_additive_check(char_func):
@@ -54,12 +54,13 @@ def compute_shapley_vector(char_func):
     return map(lambda x: float(x)/(2*N_fact) ,res)
 
 def group_rationalisation_check(shapley_vector, char_func):
-    return (sum(shapley_vector) - float(char_func[len(char_func) - 1])) < TOLERANCE
+    return (sum(shapley_vector) - float(char_func[len(char_func) - 1])) < ACCURACY
 
 def individual_rationalisation_check(shapley_vector, char_func):
     N = len(bin(len(char_func)-1).split('b')[1])
     for i in range(N):
         if shapley_vector[i] < char_func[1<<i]:
+            print "Нарушение индивидуальной рациональзации для игрока {}".format(i+1)
             return False
     return True
 
